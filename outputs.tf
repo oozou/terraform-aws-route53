@@ -3,12 +3,12 @@ output "route53_zone_id" {
   value       = { for k, v in aws_route53_zone.this : k => v.zone_id }
 }
 
-output "route53_zone_name_servers" {
+output "route53_name_servers" {
   description = "Name servers of Route53 zone"
   value       = { for k, v in aws_route53_zone.this : k => v.name_servers }
 }
 
-output "route53_zone_name" {
+output "route53_name" {
   description = "Name of Route53 zone"
   value       = { for k, v in aws_route53_zone.this : k => v.name }
 }
