@@ -15,35 +15,60 @@ resource "aws_elb" "this" {
   }
 }
 
-module "this" {
+module "host_zone_and_record" {
   source = "<source>"
 
-  is_public_zone = false  # default true
-  vpc_id         = module.vpc.vpc_id # If public zone is `false`, you have to specific vpc_id
+  is_public_zone = false             # Default `true`
+  vpc_id         = module.vpc.vpc_id # If is_public_zone is `true`, no need to specific
 
-  prefix      = "oozou"
-  environment = "dev"
-  dns_name    = "big.work"
+  prefix      = var.prefix
+  environment = var.environment
+
+  dns_name = "big.work"
   dns_records = {
     art_dns = {
-      name    = "art.r" # Auto append with dns_name -> art.r.big.work
+      name    = "art.r" # Auto append with dns_namme -> art.r.big.work
       type    = "A"
       ttl     = "5"
       records = ["192.112.112.112", "192.112.112.113"]
     }
     big_dns = {
-      name    = "big.k" # Auto append with dns_name -> m.s.big.work
+      name    = "big.k" # Auto append with dns_namme -> m.s.big.work
       type    = "A"
       ttl     = "5"
       records = ["56.56.56.56", "56.56.56.58"]
     }
-    art_alias = {
-      name = "art.ah.ah.alias.domain" # Up tp use case
+    big_alias = {
+      name = "art.ah.ah.alias.domain" # Auto append with dns_namme -> art.ah.ah.alias.domain.big.work
       type = "A"
       alias = {
-        name    = aws_elb.this.dns_name
+        name    = aws_elb.this.dns_name # Target DNS name
         zone_id = aws_elb.this.zone_id
       }
+    }
+  }
+
+  tags = var.custom_tags
+}
+
+module "only_record" {
+  source = "<source>"
+
+  is_create_zone = false
+  is_public_zone = false             # Default `true`
+  vpc_id         = module.vpc.vpc_id # If is_public_zone is `true`, no need to specific
+
+  prefix      = var.prefix
+  environment = var.environment
+
+  dns_name = "big.work"
+
+  dns_records = {
+    art_dns = {
+      name    = "bakaraarararaaaraarararara"
+      type    = "A"
+      ttl     = "5"
+      records = ["192.112.112.112", "192.112.112.113"]
     }
   }
 }
