@@ -1,5 +1,9 @@
 # terraform-aws-route53
 
+## Terraform module design
+
+![Design diagram](docs/terraform-aws-route53.jpeg "Design diagram")
+
 ## Usage
 
 ```terraform
@@ -86,7 +90,7 @@ module "only_record" {
 
 | Name                                              | Version |
 |---------------------------------------------------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.00 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.6.0   |
 
 ## Modules
 
@@ -94,10 +98,11 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                  | Type     |
-|-----------------------------------------------------------------------------------------------------------------------|----------|
-| [aws_route53_record.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone)     | resource |
+| Name                                                                                                                          | Type        |
+|-------------------------------------------------------------------------------------------------------------------------------|-------------|
+| [aws_route53_record.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record)         | resource    |
+| [aws_route53_zone.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone)             | resource    |
+| [aws_route53_zone.selected_zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
 
@@ -114,5 +119,11 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name                                                                                                 | Description                               |
+|------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| <a name="output_route53_name"></a> [route53\_name](#output\_route53\_name)                           | Name of Route53 zone                      |
+| <a name="output_route53_name_servers"></a> [route53\_name\_servers](#output\_route53\_name\_servers) | Name servers of Route53 zone              |
+| <a name="output_route53_record_fqdn"></a> [route53\_record\_fqdn](#output\_route53\_record\_fqdn)    | FQDN built using the zone domain and name |
+| <a name="output_route53_record_name"></a> [route53\_record\_name](#output\_route53\_record\_name)    | The name of the record                    |
+| <a name="output_route53_zone_id"></a> [route53\_zone\_id](#output\_route53\_zone\_id)                | Zone ID of Route53 zone                   |
 <!-- END_TF_DOCS -->
