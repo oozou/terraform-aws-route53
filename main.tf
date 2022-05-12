@@ -31,7 +31,7 @@ resource "aws_route53_record" "this" {
   for_each = var.dns_records
 
   zone_id         = local.zone_id
-  name            = format("%s%s", lookup(each.value, "name", ""), lookup(each.value, "name", null) == null ? "" : format(".%s", var.dns_name))
+  name            = lookup(each.value, "name", "") == "" ? format("%s", var.dns_name) : format("%s.%s", lookup(each.value, "name", ""), var.dns_name)
   type            = lookup(each.value, "type", null)
   allow_overwrite = lookup(each.value, "allow_overwrite", false)
   ttl             = lookup(each.value, "ttl", null)
