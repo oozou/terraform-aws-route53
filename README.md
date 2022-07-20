@@ -9,7 +9,7 @@
 ```terraform
 resource "aws_elb" "this" {
   name    = "foobar-terraform-elb"
-  subnets = module.vpc.public_subnets_ids
+  subnets = "vpc-xxxxx"
 
   listener {
     instance_port     = 80
@@ -23,27 +23,21 @@ module "host_zone_and_record" {
   source = "<source>"
 
   is_public_zone = false             # Default `true`
-  vpc_id         = module.vpc.vpc_id # If is_public_zone is `true`, no need to specific
+  vpc_id         = "vpc-xxxxx"  # If is_public_zone is `true`, no need to specific
 
-  prefix      = var.prefix
-  environment = var.environment
+  prefix      = "oozou"
+  environment = "dev"
 
-  dns_name = "big.work"
+  dns_name = "oozou-sample"
   dns_records = {
-    art_dns = {
-      name    = "art.r" # Auto append with dns_namme -> art.r.big.work
+    sample_dns = {
+      name    = "app1" 
       type    = "A"
       ttl     = "5"
       records = ["192.112.112.112", "192.112.112.113"]
     }
-    big_dns = {
-      name    = "big.k" # Auto append with dns_namme -> m.s.big.work
-      type    = "A"
-      ttl     = "5"
-      records = ["56.56.56.56", "56.56.56.58"]
-    }
-    big_alias = {
-      name = "art.ah.ah.alias.domain" # Auto append with dns_namme -> art.ah.ah.alias.domain.big.work
+    sample_alias = {
+      name = "app2"
       type = "A"
       alias = {
         name    = aws_elb.this.dns_name # Target DNS name
@@ -57,22 +51,22 @@ module "host_zone_and_record" {
 
 module "only_record" {
   source = "<source>"
-
+  depends_on = [module.host_zone_and_record]
   is_create_zone = false
   is_public_zone = false             # Default `true`
-  vpc_id         = module.vpc.vpc_id # If is_public_zone is `true`, no need to specific
+  vpc_id         = "vpc-xxxxx"  # If is_public_zone is `true`, no need to specific
 
-  prefix      = var.prefix
-  environment = var.environment
+  prefix      = "oozou"
+  environment = "dev"
 
-  dns_name = "big.work"
+  dns_name = "oozou-sample"
 
   dns_records = {
-    art_dns = {
-      name    = "bakaraarararaaaraarararara"
+    sample_dns = {
+      name    = "app2" 
       type    = "A"
       ttl     = "5"
-      records = ["192.112.112.112", "192.112.112.113"]
+      records = ["192.112.112.114", "192.112.112.115"]
     }
   }
 }
