@@ -4,7 +4,8 @@ locals {
   hostzone_suffix = var.is_public_zone ? "public-zone" : "private-zone"
   vpc_id          = var.is_public_zone ? [] : [var.vpc_id]
 
-  zone_id = var.is_create_zone ? var.is_ignore_vpc_changes ? aws_route53_zone.this_ignore_vpc[0].zone_id : aws_route53_zone.this[0].zone_id : data.aws_route53_zone.selected_zone[0].zone_id
+  zone_id   = var.is_create_zone ? var.is_ignore_vpc_changes ? aws_route53_zone.this_ignore_vpc[0].zone_id : aws_route53_zone.this[0].zone_id : data.aws_route53_zone.selected_zone[0].zone_id
+  zone_name = var.dns_name
 
   tags = merge(
     {

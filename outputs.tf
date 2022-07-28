@@ -1,16 +1,21 @@
 output "route53_name" {
   description = "Name of Route53 zone"
-  value       = element(concat(aws_route53_zone.this[*].name, [""]), 0)
+  value       = try(local.zone_name, "")
 }
 
 output "route53_zone_id" {
   description = "Zone ID of Route53 zone"
-  value       = element(concat(aws_route53_zone.this[*].zone_id, [""]), 0)
+  value       = try(local.zone_id, "")
 }
 
 output "route53_name_servers" {
   description = "Name servers of Route53 zone"
-  value       = element(concat(aws_route53_zone.this[*].name_servers, [""]), 0)
+  value = element(concat(
+    aws_route53_zone.this[*].name_servers,
+    aws_route53_zone.this_ignore_vpc[*].name_servers,
+    data.aws_route53_zone.selected_zone[*].name_servers,
+    [""]
+  ), 0)
 }
 
 output "route53_record_name" {
