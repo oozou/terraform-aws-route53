@@ -46,6 +46,12 @@ variable "vpc_id" {
 /* -------------------------------------------------------------------------- */
 /*                                   Route53                                  */
 /* -------------------------------------------------------------------------- */
+variable "is_ignore_vpc_changes" {
+  description = "Whether ignore change when using with zone association"
+  type        = bool
+  default     = false
+}
+
 variable "dns_records" {
   description = "Map of DNS records"
   type        = any
